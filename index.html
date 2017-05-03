@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<title>Jquery UI Tabs extended by Roman Avalos Castillo</title>
+	<meta charset='utf-8'>
+	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/cupertino/jquery-ui.css">
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" language="javascript" src="RAC_iframeTabs.1.0.2017.05.js"></script>
+	
+	<style>
+		.rac-Bottom-right{
+			position:absolute;
+			bottom:0;
+			right:0;
+		}
+		.rac-Bottom-left{
+			position:absolute;
+			bottom:0;
+			left:0;
+		}
+		.rac-scroll-touch{
+			-webkit-overflow-scrolling: touch;
+		}
+		
+		.background-Xdiv{
+			width:100%;
+			background: #ffffff; /* Old browsers */
+			background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+		}
+		.extrabutton{width:18px;cursor:pointer;}
+		.extrabutton:hover{
+			border-radius:10px;
+			background: #deefff; /* Old browsers */
+			background: -moz-linear-gradient(top, #deefff 0%, #98bede 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top, #deefff 0%,#98bede 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, #deefff 0%,#98bede 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+			box-shadow: 0px 0px 20px #b4df5b;
+		}
+		
+		.dev:hover{
+			box-shadow: 0px 0px 20px #b4df5b;
+		}
+	</style>
+<head>
+</head>
+<body>
+	<h1>Example Jquery RAC iframe Tabs v1.0.2017.05.01</h1>
+	</br><span><a href='https://github.com/avalosro/jquery.RAC_iframeTabs' style='text-decoration: none; font-size:1.5em;'><img src='images/3641.png' style='width:25px;'>Go githup for more info.</a></span></br></br>
+	
+	<input type='button' value='Add new tab (jquery-ui)' onclick='AddNewTab("Jquery-ui", "https://jqueryui.com/");'>
+	<input type='button' value='Add new tab (Jquery)' onclick='AddNewTab("Jquery","https://jquery.com/")'>
+	<input type='button' value='Add new tab extrabutoon (Google)' onclick='AddNewTabIncluseExtraButtons("Goolge","www.google.com")'>
+	</br>
+	<input type='button' value='Get all tabs' onclick='getalltabs()'>
+	<input type='button' value='Remove tab index(0)' onclick='removetab(0)'>
+	<input type='button' value='Remove All Tabs' onclick='RemoveAllTabs()'>
+	<input type='button' value='Focus tab by index(0)' onclick='activeTab(0)'>
+	</br>
+	<input type='button' value='Get tab index active' onclick='GetTabactiveIndex()'>
+	<input type='button' value='Get tab id active' onclick='GetTabactiveId()'>
+	<label>  <b>change link tab 0:</b><input type='text' value='www.google.com' id='newlink'><input type='button' value='change' onclick='changeLikn()'></label>
+	<input type='button' value='Reload tab page (0)' onclick='reloadtabpage()'>
+	<div>
+		<div id='tabscontainer' style='width:100%; height:900px;'></div>
+	</div>
+	<div class='rac-Bottom-left background-Xdiv'>
+		<section name='notes' style='position:relative;margin-top:50px;bottom; margin-left: 20px;'>
+			<span style='font-size:1.2em; position:relative !important;top:0px; color:#0a0809 !important;'>Developer by Roman Avalos Castillo</span></br>
+			<span><a href='mailto:avalosro@gmail.com?Subject=Hello%20' style='text-decoration: none;color:#0a0809 !important;' class='dev' target='_top'>avalosro@gmail.com</a></span></br></br>
+			<span>This add-on requires the following libraries:</span></br>
+			<a href='https://jquery.com/'>Jquery-3.1.1 or higher</a></br>
+			<a href='https://jqueryui.com/'>Jquery-ui-1.12.0 or higher</a>
+			
+		</section>
+	</div>
+	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/cupertino/jquery-ui.css">
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" language="javascript" src="RAC_iframeTabs.1.0.2017.05.js"></script>
+	<script>
+		var tabs = $('#tabscontainer').RAC_iframeTabs({
+			tabButtonClose: true,
+			UseMaxSize: 'container',
+		});
+		
+	
+		function AddNewTab(name, link)
+		{
+			tabs.AddTab([{title:name, link:link}]);
+		}
+		
+		function AddNewTabIncluseExtraButtons(name, link)
+		{
+			var bt = {Position:'left', MButton:"<img src='images/google.png' class='extrabutton' style='position:relative; margin-right:5px;' title='click on this button to go event onclick.' onclick='MiEventoOnclic()'>"};  
+			tabs.AddTab([{title:name, link:link, Extrabuttons:bt}]);
+		}
+		
+		function MiEventoOnclic()
+		{
+			alert('click on extra button');
+		}
+		
+		function removetab(index)
+		{
+			tabs.RemoveTabFromIndex(index);
+		}
+		
+		function RemoveAllTabs(){
+			tabs.ClearAll();
+		}
+		
+		function activeTab(index)
+		{
+			tabs.FocusTabyIndex(index);
+		}
+		
+		function activeTabbyName(name)
+		{
+			tabs.FocusTabyName(name);
+		}
+		
+		function GetTabactiveIndex()
+		{alert(tabs.GetActiveTabByIndex());}
+		function GetTabactiveId()
+		{alert(tabs.GetActiveTabById());}
+		
+		function changeLikn()
+		{
+			//newlink
+			tabs.FocusTabyIndex(0);
+			tabs.ChangeLink(0, $('#newlink').val());
+		}
+		
+		function reloadtabpage()
+		{
+			var tid = tabs.GetActiveTabById();
+			tabs.reloadTab(tid);
+		}
+		
+		function getalltabs()
+		{
+			var obj =  tabs.GetAllTabs();
+			for(i = 0; i < obj.length; i++ )
+			{
+				alert(obj[i].title);
+			}
+		}
+	</script>
+</body>
+</html>
